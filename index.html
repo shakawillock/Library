@@ -5,10 +5,34 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet"> 
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/scripts.js" defer></script>
 </head>
 <body>
   <h1 class="title">Library</h1>
+  <button id="modal-btn">Add Book</button>
+  <div id="my-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="">New Book</h3>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form class="new-book">
+          <input type="text" name="book-title" id="book-title" placeholder="Title">
+          <input type="text" name="book-author" id="book-author" placeholder="Author">
+          <input type="number" name="book-pages" id="book-pages" placeholder="Pages">
+          <div class="form-wrapper">
+            <label for="read">Read</label>
+            <input type="checkbox" name="book-read" id="book-read">
+          </div>
+          <button type="submit" value="Submit" class="submit-btn">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
