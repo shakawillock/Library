@@ -18,7 +18,7 @@ body {
 .container {
  display: flex;
  flex-wrap: wrap;
- max-width: 1000px; 
+ max-width: 1200px; 
  margin: 0 auto;
 }
 
@@ -110,7 +110,7 @@ label {
 /* Card */
 .card {
   border: 3px solid #000;
-  background-color: #EDEEC9;
+  background-color: #edeec9;
   border-radius: 10px;
   margin: 0 1rem 2rem 0;
   padding: 1rem;
