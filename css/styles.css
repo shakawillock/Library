@@ -16,7 +16,10 @@ body {
 }
 
 .container {
+ display: flex;
+ flex-wrap: wrap;
  max-width: 1000px; 
+ margin: 0 auto;
 }
 
 /* Modal */
@@ -34,7 +37,7 @@ body {
 
 #modal-btn {
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
   padding: 1rem 2rem;
   border: 1px solid #000;
   border-radius: 5px;
@@ -102,4 +105,56 @@ label {
   cursor: pointer;
   margin-top: 1.5rem;
   font-size: 1.125rem;
+}
+
+/* Card */
+.card {
+  border: 3px solid #000;
+  background-color: #EDEEC9;
+  border-radius: 10px;
+  margin: 0 1rem 2rem 0;
+  padding: 1rem;
+  text-align: center;
+  flex: 0 0 30%;
+  height: 350px;
+}
+
+.card h3, .card p {
+  margin-bottom: 1rem;
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.card p {
+  font-size: 1.2rem;
+}
+
+.card p:last-of-type {
+  margin-bottom: 2rem;
+}
+
+.card__button {
+  font-size: 1.125rem;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: .5rem 1rem;
+  width: 125px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto 1rem auto;
+}
+
+.card__button--red {
+  background-color: #ed2939;
+}
+
+.card__button--green {
+  background-color: #32CD32;
+}
+
+.card__button--delete {
+  background-color: #d3d3d3;
 }
