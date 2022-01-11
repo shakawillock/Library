@@ -6,6 +6,7 @@ const author = document.querySelector('#book-author');
 const pages = document.querySelector('#book-pages');
 const read = document.querySelector('#book-read');
 const submitBtn = document.querySelector('.submit-btn');
+const container = document.querySelector('.container');
 
 modalBtn.addEventListener('click', () => {
   modal.style.display = 'block';
@@ -41,6 +42,7 @@ submitBtn.addEventListener('click', e => {
   addBookToLibrary(book);
 
   modal.style.display = "none";
+  clearInput();
 });
 
 
@@ -55,7 +57,7 @@ function Book(title, author, pages, read) {
 
 function addBookToLibrary(book) {
   myLibrary.push(book);
-  console.log(myLibrary);
+  displayBook(myLibrary);
 }
 
 function checkBookInput(title, author, pages) {
@@ -63,4 +65,44 @@ function checkBookInput(title, author, pages) {
     alert('Please, fill in all the fields');
     modal.style.display = "none";
   }
+}
+
+function displayBook(myLibrary) {
+  for (let i = 0; i < myLibrary.length; i++) {
+    const card = createCard();
+    const cardHeader = createCardHeader();
+    const titleOfBook = document.createTextNode(myLibrary[i].title);
+    cardHeader.append(titleOfBook);
+    card.appendChild(cardHeader);
+    container.appendChild(card);
+  }
+}
+
+function createCard() {
+  const card = document.createElement('div');
+  card.classList.add('card');
+  return card;
+}
+
+function createCardHeader() {
+  const cardHeader = document.createElement('h3');
+  return cardHeader;
+}
+
+function createCardBody() {
+  const cardBody = document.createElement('div');
+}
+
+function createCardText() {
+  const para = document.createElement('p');
+  const para2 = document.createElement('p');
+
+  return [para, para2];
+}
+
+function clearInput() {
+  title.value = '';
+  author.value = '';
+  pages.value = '';
+  read.checked = false;
 }
