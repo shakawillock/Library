@@ -76,7 +76,7 @@ function displayBook(book) {
   const authorOfBook = document.createTextNode(book.author);
   const pagesOfBook = document.createTextNode(book.pages + 'pg');
   const bookRead = document.createTextNode(book.read);
-  
+
   changeReadBtnColor(readBtn, bookRead);
 
   readBtn.appendChild(bookRead);
@@ -87,6 +87,7 @@ function displayBook(book) {
   card.appendChild(cardBody);
   container.appendChild(card);
 
+  readBtn.addEventListener('click', changeReadStatus);
   deleteBtn.addEventListener('click', deleteBook);
 }
 
@@ -130,7 +131,7 @@ function createDeleteButton() {
 function changeReadBtnColor(readBtn, bookRead) {
   if (bookRead.textContent === 'Read') {
     readBtn.classList.add('card__button--green');
-  } else {
+  } else  {
     readBtn.classList.add('card__button--red');
   }
 }
@@ -144,6 +145,18 @@ function deleteBook(e) {
       myLibrary.splice(i, 1);
       e.target.parentElement.parentElement.remove();
     }
+  }
+}
+
+function changeReadStatus(e) {
+  if (e.target.textContent === 'Read') {
+    e.target.textContent = 'Not Read';
+    e.target.classList.remove('card__button--green');
+    changeReadBtnColor(e.target, e.target);
+  } else if (e.target.textContent === 'Not Read'){
+    e.target.textContent = 'Read';
+    e.target.classList.remove('card__button--red');
+    changeReadBtnColor(e.target, e.target);
   }
 }
 
