@@ -7,7 +7,7 @@ const pages = document.querySelector('#book-pages');
 const read = document.querySelector('#book-read');
 const submitBtn = document.querySelector('.submit-btn');
 const container = document.querySelector('.container');
-let myLibrary = [];
+let myLibrary = JSON.parse(localStorage.getItem('books')) || [];
 
 modalBtn.addEventListener('click', () => {
   modal.style.display = 'block';
@@ -16,7 +16,7 @@ modalBtn.addEventListener('click', () => {
 closeBtn.addEventListener('click', closeModal);
 
 function closeModal() {
-  modal.style.display = "none";
+  modal.style.display = 'none';
 }
 
 function Book(title, author, pages, read) {
@@ -52,7 +52,7 @@ submitBtn.addEventListener('click', e => {
 });
 
 function checkBookInput(title, author, pages) {
-  if (title === '' || author === '' || pages === '') {
+  if (title === '' || author === '' || pages === 0) {
     alert('Please, fill in all the fields');
     closeModal();
     return true;
@@ -62,6 +62,7 @@ function checkBookInput(title, author, pages) {
 function addBookToLibrary(book) {
   myLibrary.push(book);
   displayBook(book);
+  addToLocalStorage();
 }
 
 function displayBook(book) {
@@ -144,6 +145,7 @@ function deleteBook(e) {
     if (bookTitle === myLibrary[i].title) {
       myLibrary.splice(i, 1);
       e.target.parentElement.parentElement.remove();
+      removeLocalStorage(i);
     }
   }
 }
@@ -158,6 +160,8 @@ function changeReadStatus(e) {
     e.target.classList.remove('card__button--red');
     changeReadBtnColor(e.target, e.target);
   }
+
+  updateLocalStorage(e);
 }
 
 function clearInput() {
@@ -171,4 +175,35 @@ window.addEventListener('click', e => {
   if (e.target === modal) {
     closeModal();
   }
+});
+
+function addToLocalStorage() {
+  localStorage.setItem('books', JSON.stringify(myLibrary));
+}
+
+function removeLocalStorage(index) {
+  let library = JSON.parse(localStorage.getItem('books')) || [];
+  for (let i = 0; i < library.length; i++) {
+    library.splice(index, 1);
+    localStorage.setItem('books', JSON.stringify(library));
+  }
+}
+
+function updateLocalStorage(e) {
+  const parent = e.target.parentElement;
+  const bookTitle = parent.firstElementChild.textContent;
+
+  let library = JSON.parse(localStorage.getItem('books')) || [];
+  for (let i = 0; i < library.length; i++) {
+    if (bookTitle === library[i].title ) {
+    library[i].read = e.target.textContent;
+    localStorage.setItem('books', JSON.stringify(library));
+    }
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  for (let i = 0; i < myLibrary.length; i++) {
+    displayBook(myLibrary[i]);
+  }  
 });
