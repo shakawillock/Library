@@ -68,7 +68,7 @@ function addBookToLibrary(book) {
 function displayBook(book) {
   const card = createCard();
   const cardBody = createCardBody();
-  const cardHeader = createCardHeader();
+  const cardTitle = createCardTitle();
   const paras = createCardText();
   const readBtn = createReadButton();
   const deleteBtn = createDeleteButton();
@@ -83,8 +83,8 @@ function displayBook(book) {
   readBtn.appendChild(bookRead);
   paras[0].appendChild(authorOfBook);
   paras[1].appendChild(pagesOfBook);
-  cardHeader.appendChild(titleOfBook);
-  cardBody.append(cardHeader, paras[0], paras[1], readBtn, deleteBtn);
+  cardTitle.appendChild(titleOfBook);
+  cardBody.append(cardTitle, paras[0], paras[1], readBtn, deleteBtn);
   card.appendChild(cardBody);
   container.appendChild(card);
 
@@ -98,9 +98,9 @@ function createCard() {
   return card;
 }
 
-function createCardHeader() {
-  const cardHeader = document.createElement('h3');
-  return cardHeader;
+function createCardTitle() {
+  const cardTitle = document.createElement('h3');
+  return cardTitle;
 }
 
 function createCardBody() {
@@ -138,13 +138,14 @@ function changeReadBtnColor(readBtn, bookRead) {
 }
 
 function deleteBook(e) {
-  const parent = e.target.parentElement;
-  const bookTitle = parent.firstElementChild.textContent;
+  const cardBody = e.target.parentElement;
+  const card = cardBody.parentElement;
+  const bookTitle = cardBody.firstElementChild.textContent;
 
   for (let i = 0; i < myLibrary.length; i++) {
     if (bookTitle === myLibrary[i].title) {
       myLibrary.splice(i, 1);
-      e.target.parentElement.parentElement.remove();
+      card.remove();
       removeLocalStorage(i);
     }
   }
@@ -155,7 +156,7 @@ function changeReadStatus(e) {
     e.target.textContent = 'Not Read';
     e.target.classList.remove('card__button--green');
     changeReadBtnColor(e.target, e.target);
-  } else if (e.target.textContent === 'Not Read'){
+  } else {
     e.target.textContent = 'Read';
     e.target.classList.remove('card__button--red');
     changeReadBtnColor(e.target, e.target);
@@ -183,6 +184,7 @@ function addToLocalStorage() {
 
 function removeLocalStorage(index) {
   let library = JSON.parse(localStorage.getItem('books')) || [];
+  
   for (let i = 0; i < library.length; i++) {
     library.splice(index, 1);
     localStorage.setItem('books', JSON.stringify(library));
@@ -190,10 +192,10 @@ function removeLocalStorage(index) {
 }
 
 function updateLocalStorage(e) {
-  const parent = e.target.parentElement;
-  const bookTitle = parent.firstElementChild.textContent;
-
+  const cardBody = e.target.parentElement;
+  const bookTitle = cardBody.firstElementChild.textContent;
   let library = JSON.parse(localStorage.getItem('books')) || [];
+
   for (let i = 0; i < library.length; i++) {
     if (bookTitle === library[i].title ) {
     library[i].read = e.target.textContent;
