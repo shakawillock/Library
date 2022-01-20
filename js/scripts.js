@@ -1,19 +1,38 @@
 const modal = document.querySelector('#my-modal');
-const modalBtn = document.querySelector('#modal-btn');
-const closeBtn = document.querySelector('.close');
-const title = document.querySelector('#book-title');
-const author = document.querySelector('#book-author');
-const pages = document.querySelector('#book-pages');
-const read = document.querySelector('#book-read');
-const submitBtn = document.querySelector('.submit-btn');
 const container = document.querySelector('.container');
 let myLibrary = JSON.parse(localStorage.getItem('books')) || [];
 
-modalBtn.addEventListener('click', () => {
+const button = (() => {
+  const modalBtn = document.querySelector('#modal-btn');
+  const closeBtn = document.querySelector('.close');
+  const submitBtn = document.querySelector('.submit-btn');
+
+  return {
+    modalBtn,
+    closeBtn,
+    submitBtn
+  }
+})();
+
+const inputField = (() => {
+  const title = document.querySelector('#book-title');
+  const author = document.querySelector('#book-author');
+  const pages = document.querySelector('#book-pages');
+  const read = document.querySelector('#book-read');
+
+  return {
+    title,
+    author,
+    pages,
+    read
+  }
+})();
+
+button.modalBtn.addEventListener('click', () => {
   modal.style.display = 'block';
 });
 
-closeBtn.addEventListener('click', closeModal);
+button.closeBtn.addEventListener('click', closeModal);
 
 function closeModal() {
   modal.style.display = 'none';
@@ -28,19 +47,19 @@ class Book {
   }
 }
 
-submitBtn.addEventListener('click', e => {
+button.submitBtn.addEventListener('click', e => {
   e.preventDefault();
 
-  const bookTitle = title.value;
-  const bookAuthor = author.value;
-  const bookPages = Number(pages.value);
+  const bookTitle = inputField.title.value;
+  const bookAuthor = inputField.author.value;
+  const bookPages = Number(inputField.pages.value);
   let bookRead;
 
   if (checkBookInput(bookTitle, bookAuthor, bookPages)) {
     return;
   }
 
-  if (read.checked) {
+  if (inputField.read.checked) {
     bookRead = 'Read'
   } else {
     bookRead = 'Not Read'
@@ -168,10 +187,10 @@ function changeReadStatus(e) {
 }
 
 function clearInput() {
-  title.value = '';
-  author.value = '';
-  pages.value = '';
-  read.checked = false;
+  inputField.title.value = '';
+  inputField.author.value = '';
+  inputField.pages.value = '';
+  inputField.read.checked = false;
 }
 
 window.addEventListener('click', e => {
