@@ -11,7 +11,7 @@ class Book {
   }
 }
 
-const button = (() => {
+const Button = (() => {
   const modalBtn = document.querySelector('#modal-btn');
   const closeBtn = document.querySelector('.close');
   const submitBtn = document.querySelector('.submit-btn');
@@ -23,17 +23,17 @@ const button = (() => {
   }
 })();
 
-const inputField = (() => {
+const InputField = (() => {
   const title = document.querySelector('#book-title');
   const author = document.querySelector('#book-author');
   const pages = document.querySelector('#book-pages');
   const read = document.querySelector('#book-read');
 
   function clear() {
-    inputField.title.value = '';
-    inputField.author.value = '';
-    inputField.pages.value = '';
-    inputField.read.checked = false;
+    InputField.title.value = '';
+    InputField.author.value = '';
+    InputField.pages.value = '';
+    InputField.read.checked = false;
   }
 
   return {
@@ -45,29 +45,29 @@ const inputField = (() => {
   }
 })();
 
-button.modalBtn.addEventListener('click', () => {
+Button.modalBtn.addEventListener('click', () => {
   modal.style.display = 'block';
 });
 
-button.closeBtn.addEventListener('click', closeModal);
+Button.closeBtn.addEventListener('click', closeModal);
 
 function closeModal() {
   modal.style.display = 'none';
 }
 
-button.submitBtn.addEventListener('click', e => {
+Button.submitBtn.addEventListener('click', e => {
   e.preventDefault();
 
-  const bookTitle = inputField.title.value;
-  const bookAuthor = inputField.author.value;
-  const bookPages = Number(inputField.pages.value);
+  const bookTitle = InputField.title.value;
+  const bookAuthor = InputField.author.value;
+  const bookPages = Number(InputField.pages.value);
   let bookRead;
 
   if (checkBookInput(bookTitle, bookAuthor, bookPages)) {
     return;
   }
 
-  if (inputField.read.checked) {
+  if (InputField.read.checked) {
     bookRead = 'Read'
   } else {
     bookRead = 'Not Read'
@@ -77,7 +77,7 @@ button.submitBtn.addEventListener('click', e => {
   addBookToLibrary(book);
 
   closeModal()
-  inputField.clear();
+  InputField.clear();
 });
 
 function checkBookInput(title, author, pages) {
