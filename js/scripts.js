@@ -63,7 +63,7 @@ Button.submitBtn.addEventListener('click', e => {
   const bookPages = Number(InputField.pages.value);
   let bookRead;
 
-  if (checkBookInput(bookTitle, bookAuthor, bookPages)) {
+  if (BookModule.checkInput(bookTitle, bookAuthor, bookPages)) {
     return;
   }
 
@@ -74,52 +74,60 @@ Button.submitBtn.addEventListener('click', e => {
   }
 
   const book = new Book(bookTitle, bookAuthor, bookPages, bookRead);
-  addBookToLibrary(book);
+  BookModule.addToLibrary(book);
 
   closeModal()
   InputField.clear();
 });
 
-function checkBookInput(title, author, pages) {
-  if (title === '' || author === '' || pages === 0) {
-    alert('Please, fill in all the fields');
-    closeModal();
-    return true;
+const BookModule = (() => {
+  function checkInput(title, author, pages) {
+    if (title === '' || author === '' || pages === 0) {
+      alert('Please, fill in all the fields');
+      closeModal();
+      return true;
+    }
   }
-}
 
-function addBookToLibrary(book) {
-  myLibrary.push(book);
-  displayBook(book);
-  addToLocalStorage();
-}
+  function addToLibrary(book) {
+    myLibrary.push(book);
+    display(book);
+    addToLocalStorage();
+  }
 
-function displayBook(book) {
-  const card = Card.createCard();
-  const cardBody = Card.createCardBody();
-  const cardTitle = Card.createCardTitle();
-  const paras = Card.createCardText();
-  const readBtn = Card.createReadButton();
-  const deleteBtn = Card.createDeleteButton();
+  function display(book) {
+    const card = Card.createCard();
+    const cardBody = Card.createCardBody();
+    const cardTitle = Card.createCardTitle();
+    const paras = Card.createCardText();
+    const readBtn = Card.createReadButton();
+    const deleteBtn = Card.createDeleteButton();
+  
+    const titleOfBook = document.createTextNode(book.title);
+    const authorOfBook = document.createTextNode(book.author);
+    const pagesOfBook = document.createTextNode(book.pages + 'pg');
+    const bookRead = document.createTextNode(book.read);
+  
+    Card.changeReadBtnColor(readBtn, bookRead);
+  
+    readBtn.appendChild(bookRead);
+    paras[0].appendChild(authorOfBook);
+    paras[1].appendChild(pagesOfBook);
+    cardTitle.appendChild(titleOfBook);
+    cardBody.append(cardTitle, paras[0], paras[1], readBtn, deleteBtn);
+    card.appendChild(cardBody);
+    container.appendChild(card);
+  
+    readBtn.addEventListener('click', Card.changeReadStatus);
+    deleteBtn.addEventListener('click', Card.deleteCard);
+  }
 
-  const titleOfBook = document.createTextNode(book.title);
-  const authorOfBook = document.createTextNode(book.author);
-  const pagesOfBook = document.createTextNode(book.pages + 'pg');
-  const bookRead = document.createTextNode(book.read);
-
-  Card.changeReadBtnColor(readBtn, bookRead);
-
-  readBtn.appendChild(bookRead);
-  paras[0].appendChild(authorOfBook);
-  paras[1].appendChild(pagesOfBook);
-  cardTitle.appendChild(titleOfBook);
-  cardBody.append(cardTitle, paras[0], paras[1], readBtn, deleteBtn);
-  card.appendChild(cardBody);
-  container.appendChild(card);
-
-  readBtn.addEventListener('click', Card.changeReadStatus);
-  deleteBtn.addEventListener('click', Card.deleteCard);
-}
+  return {
+    checkInput,
+    addToLibrary,
+    display
+  }
+})();
 
 const Card = (() => {
   function createCard() {
@@ -242,6 +250,6 @@ function updateLocalStorage(e) {
 
 window.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < myLibrary.length; i++) {
-    displayBook(myLibrary[i]);
+    BookModule.display(myLibrary[i]);
   }  
 });
