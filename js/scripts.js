@@ -51,11 +51,9 @@ Button.modalBtn.addEventListener('click', () => {
 
 Button.closeBtn.addEventListener('click', closeModal);
 
-function closeModal() {
-  modal.style.display = 'none';
-}
+Button.submitBtn.addEventListener('click', addBook);
 
-Button.submitBtn.addEventListener('click', e => {
+function addBook(e) {
   e.preventDefault();
 
   const bookTitle = InputField.title.value;
@@ -78,7 +76,11 @@ Button.submitBtn.addEventListener('click', e => {
 
   closeModal()
   InputField.clear();
-});
+}
+
+function closeModal() {
+  modal.style.display = 'none';
+}
 
 const BookModule = (() => {
   function checkInput(title, author, pages) {
