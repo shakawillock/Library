@@ -22,6 +22,10 @@ const Button = (() => {
   }
 })();
 
+Button.modalBtn.addEventListener('click', openModal);
+Button.closeBtn.addEventListener('click', closeModal);
+Button.submitBtn.addEventListener('click', addBook);
+
 const InputField = (() => {
   const title = document.querySelector('#book-title');
   const author = document.querySelector('#book-author');
@@ -43,43 +47,6 @@ const InputField = (() => {
     clear
   }
 })();
-
-Button.modalBtn.addEventListener('click', openModal);
-Button.closeBtn.addEventListener('click', closeModal);
-Button.submitBtn.addEventListener('click', addBook);
-
-function addBook(e) {
-  e.preventDefault();
-
-  const bookTitle = InputField.title.value;
-  const bookAuthor = InputField.author.value;
-  const bookPages = Number(InputField.pages.value);
-  let bookRead;
-
-  if (BookModule.checkInput(bookTitle, bookAuthor, bookPages)) {
-    return;
-  }
-
-  if (InputField.read.checked) {
-    bookRead = 'Read'
-  } else {
-    bookRead = 'Not Read'
-  }
-
-  const book = new Book(bookTitle, bookAuthor, bookPages, bookRead);
-  BookModule.addToLibrary(book);
-
-  closeModal()
-  InputField.clear();
-}
-
-function openModal() {
-  modal.style.display = 'block';
-}
-
-function closeModal() {
-  modal.style.display = 'none';
-}
 
 const BookModule = (() => {
   function checkInput(title, author, pages) {
@@ -224,6 +191,33 @@ const Card = (() => {
     remove,
   }
 })();
+
+function addBook(e) {
+  e.preventDefault();
+
+  const bookTitle = InputField.title.value;
+  const bookAuthor = InputField.author.value;
+  const bookPages = Number(InputField.pages.value);
+  const bookRead = InputField.read.checked ? 'Read' : 'Not Read';
+
+  if (BookModule.checkInput(bookTitle, bookAuthor, bookPages)) {
+    return;
+  }
+
+  const book = new Book(bookTitle, bookAuthor, bookPages, bookRead);
+  BookModule.addToLibrary(book);
+
+  closeModal()
+  InputField.clear();
+}
+
+function openModal() {
+  modal.style.display = 'block';
+}
+
+function closeModal() {
+  modal.style.display = 'none';
+}
 
 function addToLocalStorage() {
   localStorage.setItem('books', JSON.stringify(myLibrary));
