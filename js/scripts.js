@@ -18,8 +18,8 @@ const Button = (() => {
   return {
     modalBtn,
     closeBtn,
-    submitBtn
-  }
+    submitBtn,
+  };
 })();
 
 Button.modalBtn.addEventListener('click', openModal);
@@ -44,8 +44,8 @@ const InputField = (() => {
     author,
     pages,
     read,
-    clear
-  }
+    clear,
+  };
 })();
 
 const BookModule = (() => {
@@ -65,14 +65,14 @@ const BookModule = (() => {
 
   function display(card) {
     const container = document.querySelector('.container');
-    container.appendChild(card)
+    container.appendChild(card);
   }
 
   return {
     checkInput,
     addToLibrary,
-    display
-  }
+    display,
+  };
 })();
 
 const Card = (() => {
@@ -81,30 +81,30 @@ const Card = (() => {
     card.classList.add('card');
     return card;
   }
-  
+
   function createTitle() {
     const cardTitle = document.createElement('h3');
     return cardTitle;
   }
-  
+
   function createBody() {
     const cardBody = document.createElement('div');
     cardBody.classList.add('card__body');
-    return cardBody
+    return cardBody;
   }
-  
+
   function createText() {
     const para = document.createElement('p');
     const para2 = document.createElement('p');
     return [para, para2];
   }
-  
+
   function createReadBtn() {
     const button = document.createElement('button');
-    button.classList.add('card__button')
+    button.classList.add('card__button');
     return button;
   }
-  
+
   function createDeleteBtn() {
     const button = document.createElement('button');
     button.classList.add('card__button', 'card__button--delete');
@@ -120,16 +120,16 @@ const Card = (() => {
     const paras = Card.createText();
     const readBtn = Card.createReadBtn();
     const deleteBtn = Card.createDeleteBtn();
-  
-    const {title, author, pages, read} = book;
+
+    const { title, author, pages, read } = book;
 
     const titleOfBook = document.createTextNode(title);
     const authorOfBook = document.createTextNode(author);
     const pagesOfBook = document.createTextNode(pages + 'pg');
     const bookRead = document.createTextNode(read);
-  
+
     Card.changeReadBtnColor(readBtn, bookRead);
-  
+
     readBtn.appendChild(bookRead);
     paras[0].appendChild(authorOfBook);
     paras[1].appendChild(pagesOfBook);
@@ -139,17 +139,17 @@ const Card = (() => {
 
     readBtn.addEventListener('click', Card.changeReadStatus);
     deleteBtn.addEventListener('click', Card.remove);
-    BookModule.display(card)
+    BookModule.display(card);
   }
 
   function changeReadBtnColor(readBtn, bookRead) {
     if (bookRead.textContent === 'Read') {
       readBtn.classList.add('card__button--green');
-    } else  {
+    } else {
       readBtn.classList.add('card__button--red');
     }
   }
-  
+
   function changeReadStatus(e) {
     if (e.target.textContent === 'Read') {
       e.target.textContent = 'Not Read';
@@ -160,15 +160,15 @@ const Card = (() => {
       e.target.classList.remove('card__button--red');
       changeReadBtnColor(e.target, e.target);
     }
-  
+
     updateLocalStorage(e);
   }
-  
+
   function remove(e) {
     const cardBody = e.target.parentElement;
     const card = cardBody.parentElement;
     const bookTitle = cardBody.firstElementChild.textContent;
-  
+
     for (let i = 0; i < myLibrary.length; i++) {
       if (bookTitle === myLibrary[i].title) {
         myLibrary.splice(i, 1);
@@ -189,7 +189,7 @@ const Card = (() => {
     changeReadBtnColor,
     changeReadStatus,
     remove,
-  }
+  };
 })();
 
 function addBook(e) {
@@ -207,7 +207,7 @@ function addBook(e) {
   const book = new Book(bookTitle, bookAuthor, bookPages, bookRead);
   BookModule.addToLibrary(book);
 
-  closeModal()
+  closeModal();
   InputField.clear();
 }
 
@@ -225,7 +225,7 @@ function addToLocalStorage() {
 
 function removeLocalStorage(index) {
   let library = JSON.parse(localStorage.getItem('books')) || [];
-  
+
   for (let i = 0; i < library.length; i++) {
     library.splice(index, 1);
     localStorage.setItem('books', JSON.stringify(library));
@@ -238,9 +238,9 @@ function updateLocalStorage(e) {
   let library = JSON.parse(localStorage.getItem('books')) || [];
 
   for (let i = 0; i < library.length; i++) {
-    if (bookTitle === library[i].title ) {
-    library[i].read = e.target.textContent;
-    localStorage.setItem('books', JSON.stringify(library));
+    if (bookTitle === library[i].title) {
+      library[i].read = e.target.textContent;
+      localStorage.setItem('books', JSON.stringify(library));
     }
   }
 }
@@ -248,10 +248,10 @@ function updateLocalStorage(e) {
 window.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < myLibrary.length; i++) {
     Card.setValues(myLibrary[i]);
-  }  
+  }
 });
 
-window.addEventListener('click', e => {
+window.addEventListener('click', (e) => {
   if (e.target === modal) {
     closeModal();
   }
